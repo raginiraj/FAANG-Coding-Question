@@ -15,7 +15,7 @@ the second observation is: the first entry and last entry f any row is 1 i.e. v[
 the last obsrvation is: each entry is sum of previous rows data in a such a way that v[i][j]=v[i-1][j]+v[i-1]+v[j-1]
 
 vector<vector<int> PaScalTriangle(int n){
-  vector<vector<int>> res(n);
+  vector<vector<int>> v(n);
   for(int i=0;i<n;i++){
       v[i].resize(i+1);
       v[i][0]=1;
@@ -24,6 +24,6 @@ vector<vector<int> PaScalTriangle(int n){
         v[i][j]=v[i-1][j]+v[i-1][j-1];
         }
     }
-    return res;
+    return v;
  }
     
