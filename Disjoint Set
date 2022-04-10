@@ -1,0 +1,76 @@
+#include<bits/stdc++.h>
+#include<vector>
+using namespace std;
+
+class DisjointSet {
+    vector<int> rank;
+    vector<int> parent;
+    public:
+        DisjointSet(int n) {
+            rank.resize(n);
+            parent.resize(n);
+            makeSet(n);
+        }
+        
+        void makeSet(int n){
+            for (int i = 1; i < n; i++) {
+                parent[i] = i;
+                rank[i] =0;
+            }
+        }
+        
+        int findParent(int node) {
+            if(parent[node]==node){
+                return node;
+            }
+            int result= findParent(parent[node]);
+            parent[node] = result;
+            return result;
+        }
+        void unionComponent(int first, int second){
+            int firstRep = findParent(first);
+            int secondRep = findParent(second);
+            
+            if(firstRep == secondRep){
+                return;
+            }
+            
+            int firstrank = rank[firstRep];
+            int secondrank = rank[secondRep];
+            if(firstrank < secondrank){
+                parent[firstRep] = secondRep;
+            } else if (secondrank < firstrank){
+                parent[secondRep] = firstRep;
+            } else {
+                parent[secondRep]=firstRep;
+                rank[firstRep]++;
+            }
+        }
+        
+        bool isConnectionPossible(int first, int second){
+            int firstRep = findParent(first);
+            int secondRep = findParent(second);
+            return firstRep == secondRep;
+        }
+};
+
+int main() {
+    int n , q;
+    cin>>n>>q;
+    DisjointSet ds(n+1);
+    while(q--){
+        int t,x,y;
+        cin>>t>>x>>y;
+        if(t==0){
+            ds.unionComponent(x,y);
+        } else {
+            bool possible = ds.isConnectionPossible(x,y);
+            string ans = "Yes";
+            if(!possible){
+                ans = "No";
+            }
+            cout<<ans<<endl;
+        }
+    }
+	return 0;
+}
